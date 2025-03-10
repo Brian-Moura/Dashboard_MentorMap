@@ -10,7 +10,7 @@ st.set_page_config(page_title="Painel de Escolha Profissional - 2025", layout="w
 # Carregar os dados do CSV em vez de conectar ao banco
 @st.cache_data
 def load_data():
-    return pd.read_csv("dados_salarios_juridico.csv")  # Substitua pelo caminho correto do seu arquivo
+    return pd.read_csv("dados_salarios_curitiba.csv")  # Substitua pelo caminho correto do seu arquivo
 
 df = load_data()
 
