@@ -63,69 +63,69 @@ df["salario"] = df["salario"].replace("Não informado", np.nan)
 # Converte a coluna para float (valores não numéricos já viram NaN automaticamente)
 df["salario"] = pd.to_numeric(df["salario"], errors="coerce")
 
-with tab1:
-    st.header("Visão Geral do Mercado")
+# with tab1:
+#     st.header("Visão Geral do Mercado")
     
-    # 1. Análise por Setor
-    st.subheader("Análise por Setor")
-    sector_analysis = df.groupby("setor")["salario"].mean().reset_index()
-    fig1 = px.bar(sector_analysis, x="setor", y="salario",
-                  title="Média Salarial por Setor",
-                  labels={"setor": "Setor", "salario": "Salário Médio (R$)"})
-    fig1.update_layout(xaxis_tickangle=-45, height=400)
-    st.plotly_chart(fig1, use_container_width=True)
+#     # 1. Análise por Setor
+#     st.subheader("Análise por Setor")
+#     sector_analysis = df.groupby("setor")["salario"].mean().reset_index()
+#     fig1 = px.bar(sector_analysis, x="setor", y="salario",
+#                   title="Média Salarial por Setor",
+#                   labels={"setor": "Setor", "salario": "Salário Médio (R$)"})
+#     fig1.update_layout(xaxis_tickangle=-45, height=400)
+#     st.plotly_chart(fig1, use_container_width=True)
 
-    # 2. Análise por Setor e Área
-    st.subheader("Análise por Setor e Área")
-    sector_area_analysis = df.groupby(["setor", "area"])["salario"].mean().reset_index()
-    fig2 = px.bar(sector_area_analysis, x="setor", y="salario", color="area",
-                  title="Média Salarial por Setor e Área",
-                  labels={"setor": "Setor", "salario": "Salário Médio (R$)", "area": "Área"})
-    fig2.update_layout(xaxis_tickangle=-45, height=400)
-    st.plotly_chart(fig2, use_container_width=True)
+#     # 2. Análise por Setor e Área
+#     st.subheader("Análise por Setor e Área")
+#     sector_area_analysis = df.groupby(["setor", "area"])["salario"].mean().reset_index()
+#     fig2 = px.bar(sector_area_analysis, x="setor", y="salario", color="area",
+#                   title="Média Salarial por Setor e Área",
+#                   labels={"setor": "Setor", "salario": "Salário Médio (R$)", "area": "Área"})
+#     fig2.update_layout(xaxis_tickangle=-45, height=400)
+#     st.plotly_chart(fig2, use_container_width=True)
 
-    # 3. Análise por Especialidade por Setor
-    st.subheader("Análise por Especialidade por Setor")
-    specialization_sector_analysis = df.groupby(["especialidade", "setor"])["salario"].mean().reset_index()
-    fig3 = px.bar(specialization_sector_analysis, x="especialidade", y="salario", color="setor",
-                  title="Média Salarial por Especialidade e Setor",
-                  labels={"especialidade": "Especialidade", "salario": "Salário Médio (R$)", "setor": "Setor"})
-    fig3.update_layout(xaxis_tickangle=-45, height=400)
-    st.plotly_chart(fig3, use_container_width=True)
+#     # 3. Análise por Especialidade por Setor
+#     st.subheader("Análise por Especialidade por Setor")
+#     specialization_sector_analysis = df.groupby(["especialidade", "setor"])["salario"].mean().reset_index()
+#     fig3 = px.bar(specialization_sector_analysis, x="especialidade", y="salario", color="setor",
+#                   title="Média Salarial por Especialidade e Setor",
+#                   labels={"especialidade": "Especialidade", "salario": "Salário Médio (R$)", "setor": "Setor"})
+#     fig3.update_layout(xaxis_tickangle=-45, height=400)
+#     st.plotly_chart(fig3, use_container_width=True)
 
-    # 4. Top 10 Salários Médios por Área
-    st.subheader("Top 10 Áreas com Maiores Salários Médios")
-    top_areas = df.groupby("area")["salario"].mean().sort_values(ascending=False).head(10).reset_index()
-    fig4 = px.bar(top_areas, x="area", y="salario",
-                  title="Top 10 Áreas - Salário Médio",
-                  labels={"area": "Área", "salario": "Salário Médio (R$)"})
-    fig4.update_layout(xaxis_tickangle=-45, height=400)
-    st.plotly_chart(fig4, use_container_width=True)
+#     # 4. Top 10 Salários Médios por Área
+#     st.subheader("Top 10 Áreas com Maiores Salários Médios")
+#     top_areas = df.groupby("area")["salario"].mean().sort_values(ascending=False).head(10).reset_index()
+#     fig4 = px.bar(top_areas, x="area", y="salario",
+#                   title="Top 10 Áreas - Salário Médio",
+#                   labels={"area": "Área", "salario": "Salário Médio (R$)"})
+#     fig4.update_layout(xaxis_tickangle=-45, height=400)
+#     st.plotly_chart(fig4, use_container_width=True)
 
-    # 5. Distribuição de Profissões em Alta por Setor
-    st.subheader("Setores com Profissões em Alta")
-    em_alta = df[df["em_alta"].notna()]
-    em_alta_setor = em_alta.groupby("setor")["cargo"].agg(list).reset_index()
-    em_alta_setor["cargo"] = em_alta_setor["cargo"].apply(lambda x: ', '.join(x))
+#     # 5. Distribuição de Profissões em Alta por Setor
+#     st.subheader("Setores com Profissões em Alta")
+#     em_alta = df[df["em_alta"].notna()]
+#     em_alta_setor = em_alta.groupby("setor")["cargo"].agg(list).reset_index()
+#     em_alta_setor["cargo"] = em_alta_setor["cargo"].apply(lambda x: ', '.join(x))
     
-    fig5 = px.pie(em_alta_setor, values=em_alta_setor["cargo"].apply(len), names="setor",
-                  title="Distribuição de Profissões em Alta por Setor",
-                  hover_data=["cargo"],
-                  labels={"cargo": "Cargos"})
-    fig5.update_traces(hovertemplate='<b>%{label}</b><br>Cargos: %{customdata}')
-    st.plotly_chart(fig5, use_container_width=True)
+#     fig5 = px.pie(em_alta_setor, values=em_alta_setor["cargo"].apply(len), names="setor",
+#                   title="Distribuição de Profissões em Alta por Setor",
+#                   hover_data=["cargo"],
+#                   labels={"cargo": "Cargos"})
+#     fig5.update_traces(hovertemplate='<b>%{label}</b><br>Cargos: %{customdata}')
+#     st.plotly_chart(fig5, use_container_width=True)
 
-    # 6. Comparativo de Salários por Porte de Empresa
-    st.subheader("Salários por Porte de Empresa")
-    salary_by_size = df.groupby("empresa")["salario"].agg(["mean", "min", "max"]).reset_index()
-    salary_by_size.columns = ["Porte da Empresa", "Média", "Mínimo", "Máximo"]
-    st.write("""
-    **Legenda - Porte das Empresas:**
-    - pq: Pequeno Porte
-    - md: Médio Porte
-    - gr: Grande Porte
-    """)
-    st.table(salary_by_size.round(2))
+#     # 6. Comparativo de Salários por Porte de Empresa
+#     st.subheader("Salários por Porte de Empresa")
+#     salary_by_size = df.groupby("empresa")["salario"].agg(["mean", "min", "max"]).reset_index()
+#     salary_by_size.columns = ["Porte da Empresa", "Média", "Mínimo", "Máximo"]
+#     st.write("""
+#     **Legenda - Porte das Empresas:**
+#     - pq: Pequeno Porte
+#     - md: Médio Porte
+#     - gr: Grande Porte
+#     """)
+#     st.table(salary_by_size.round(2))
 
 with tab2:
     st.header("Análise Detalhada")
@@ -204,42 +204,18 @@ with tab2:
         filtered_df = filtered_df[filtered_df["empresa"] == escolha_empresa]
 
     # Filtro para selecionar o cargo
-    cargo_selecionado = st.selectbox("Escolha um cargo para visualizar as habilidades", 
-                                     ["Todos"] + list(filtered_df["cargo"].dropna().unique()))
     
-    if cargo_selecionado != "Todos":
-        # Gerar a nuvem de habilidades
-        st.subheader(f"Nuvem de Habilidades para o cargo de {cargo_selecionado}")
-        gerar_nuvem_habilidades(cargo_selecionado)
-    else:
-        st.write("Selecione um cargo para ver a nuvem de habilidades associada.")
+# Filtro para selecionar o cargo (antes dos gráficos!)
+cargos_disponiveis = ["Todos"] + list(filtered_df["cargo"].dropna().unique())
+cargo_selecionado = st.selectbox("Escolha um cargo para visualizar as habilidades e salário", cargos_disponiveis)
 
-    # 1. Tabela de Cargos e Salários
-    st.subheader("Cargos e Salários")
-    cargo_stats = filtered_df.groupby("cargo").agg({
-        "salario": ["mean", "min", "max"],
-        "em_alta": lambda x: "Sim" if x.notna().any() else "Não",
-        "setor": "first",
-        "area": "first",
-        "nivel": "first"
-    }).reset_index()
-    cargo_stats.columns = ["Cargo", "Média Salarial", "Salário Mínimo", "Salário Máximo", "Em Alta", "Setor", "Área", "Nível"]
-    st.dataframe(cargo_stats.sort_values("Média Salarial", ascending=False).round(2))
+# Agora usamos cargo_selecionado para nuvem de habilidades
+if cargo_selecionado != "Todos":
+    st.subheader(f"Nuvem de Habilidades para o cargo de {cargo_selecionado}")
+    gerar_nuvem_habilidades(cargo_selecionado)
+else:
+    st.write("Selecione um cargo para ver a nuvem de habilidades associada.")
 
-    # 2. Gráfico de Distribuição Salarial
-    st.subheader("Distribuição Salarial dos Cargos")
-    
-    # Opção de visualização
-    tipo_visualizacao = st.radio(
-        "Escolha o tipo de visualização:",
-        ["Por Cargo", "Por Nível de Carreira"],
-        horizontal=True
-    )
-    
-    if tipo_visualizacao == "Por Cargo":
-        # Filtrar cargos com dados
-        cargos_disponiveis = filtered_df["cargo"].unique()
-        cargo_selecionado = st.selectbox("Escolha um cargo:", ["Todos"] + list(cargos_disponiveis))
         
         if cargo_selecionado != "Todos":
             dados_plot = filtered_df[filtered_df["cargo"] == cargo_selecionado]
