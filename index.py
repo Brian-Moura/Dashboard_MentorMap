@@ -16,7 +16,7 @@ st.set_page_config(page_title="Painel de Escolha Profissional - 2025", layout="w
 # Função para carregar dados aceitando CSV ou XLSX
 @st.cache_data
 def load_data():
-    arquivo = "Vagas_glass_final"  # Nome base do arquivo
+    arquivo = "Vagas_glass_fina_l"  # Nome base do arquivo
     if os.path.exists(f"{arquivo}.csv"):
         return pd.read_csv(f"{arquivo}.csv")
     elif os.path.exists(f"{arquivo}.xlsx"):
@@ -138,10 +138,14 @@ with tab2:
         # Combina todas as habilidades em uma lista
         habilidades_lista = ",".join(cargo_df["habilidade"].dropna()).split(",")
         habilidades_lista = [h.strip() for h in habilidades_lista if h.strip()]  # Remove espaços e vazios
+        habilidades_lista = [h for h in habilidades_lista if h.lower() != 'não informadas'] # remove habilidades não informadas
 
         # Conta as habilidades
         habilidades_contagem = pd.Series(habilidades_lista).value_counts().reset_index()
         habilidades_contagem.columns = ["Habilidade", "Frequência"]
+
+        # Aumenta os valores para melhorar visibilidade
+        habilidades_contagem["Frequência"] = habilidades_contagem["Frequência"].apply(lambda x: x ** 1.5)
 
         # Gera JSON para a wordcloud
         words_json = json.dumps(habilidades_contagem.rename(columns={"Habilidade": "text", "Frequência": "value"}).to_dict(orient="records"))
